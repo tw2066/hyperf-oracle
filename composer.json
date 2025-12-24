@@ -1,5 +1,5 @@
 {
-    "name": "jonas-elias/hyperf-oracle",
+    "name": "tangwei/hyperf-oracle",
     "type": "library",
     "description": "A oracle handler for hyperf/database.",
     "license": "MIT",
