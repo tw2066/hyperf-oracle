@@ -9,8 +9,6 @@ use Hyperf\Database\Connection;
 use Hyperf\Database\PgSQL\Query\Processors\PostgresProcessor;
 use Hyperf\Database\Schema\Builder;
 
-use function Hyperf\Collection\head;
-
 class OracleBuilder extends Builder
 {
     /**

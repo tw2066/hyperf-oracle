@@ -8,9 +8,8 @@ use Hyperf\Database\Connection;
 use Hyperf\Database\Query\Expression;
 use Hyperf\Database\Schema\Blueprint;
 use Hyperf\Database\Schema\Grammars\Grammar;
-use Hyperf\Support\Fluent;
 
-use function Hyperf\Collection\collect;
+use Hyperf\Utils\Fluent;
 
 class OracleGrammar extends Grammar
 {
@@ -50,13 +49,13 @@ class OracleGrammar extends Grammar
      *
      * @var bool
      */
-    protected bool $transactions = true;
+    protected $transactions = true;
 
     /**
      * Compile a create table command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -96,7 +95,7 @@ class OracleGrammar extends Grammar
      * Compile a drop fulltext index command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -119,7 +118,7 @@ class OracleGrammar extends Grammar
      * Compile a fulltext index key command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -174,7 +173,7 @@ class OracleGrammar extends Grammar
      *
      * @return string
      */
-    public function wrap(Fluent|Expression|string $value, $prefixAlias = false): string
+    public function wrap($value, $prefixAlias = false): string
     {
         return parent::wrap(
             $value instanceof Fluent ? strtoupper($value->name) : strtoupper($value),
@@ -265,7 +264,7 @@ class OracleGrammar extends Grammar
      * Compile an add column command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -284,7 +283,7 @@ class OracleGrammar extends Grammar
      * Compile a primary key command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -307,7 +306,7 @@ class OracleGrammar extends Grammar
      * Compile a foreign key command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -348,7 +347,7 @@ class OracleGrammar extends Grammar
      * Compile a unique key command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -361,7 +360,7 @@ class OracleGrammar extends Grammar
      * Compile a plain index key command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -374,7 +373,7 @@ class OracleGrammar extends Grammar
      * Compile a drop table command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -415,7 +414,7 @@ class OracleGrammar extends Grammar
      * Compile a drop table (if exists) command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -434,7 +433,7 @@ class OracleGrammar extends Grammar
      * Compile a drop column command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -491,7 +490,7 @@ class OracleGrammar extends Grammar
      * Compile a rename table command.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $command
+     * @param Fluent $command
      *
      * @return string
      */
@@ -584,7 +583,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a char type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -596,7 +595,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a string type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -608,7 +607,7 @@ class OracleGrammar extends Grammar
     /**
      * Create column definition for a nvarchar type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -620,7 +619,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a text type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -632,7 +631,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a medium text type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -644,7 +643,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a long text type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -656,7 +655,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a integer type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -670,7 +669,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a integer type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -684,7 +683,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a medium integer type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -698,7 +697,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a small integer type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -712,7 +711,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a tiny integer type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -726,7 +725,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a float type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -738,7 +737,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a double type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -750,7 +749,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a decimal type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -762,7 +761,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a boolean type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -774,7 +773,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a enum type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -788,7 +787,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a date type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -800,7 +799,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a date-time type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -812,7 +811,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a time type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -824,7 +823,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a timestamp type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -848,7 +847,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a binary type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -860,7 +859,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a uuid type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -872,7 +871,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for an IP address type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -884,7 +883,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a MAC address type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -896,7 +895,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a json type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -908,7 +907,7 @@ class OracleGrammar extends Grammar
     /**
      * Create the column definition for a jsonb type.
      *
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -921,7 +920,7 @@ class OracleGrammar extends Grammar
      * Get the SQL for a nullable column modifier.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -948,7 +947,7 @@ class OracleGrammar extends Grammar
      * Get the SQL for a default column modifier.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string
      */
@@ -962,7 +961,7 @@ class OracleGrammar extends Grammar
      * Get the SQL for an auto-increment column modifier.
      *
      * @param \Hyperf\Database\Schema\Blueprint $blueprint
-     * @param \Hyperf\Support\Fluent $column
+     * @param Fluent $column
      *
      * @return string|null
      */

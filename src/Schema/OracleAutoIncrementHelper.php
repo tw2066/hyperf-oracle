@@ -6,6 +6,7 @@ namespace Hyperf\Database\Oracle\Schema;
 
 use Hyperf\Database\ConnectionInterface;
 use Hyperf\Database\Schema\Blueprint;
+use Hyperf\Utils\Fluent;
 
 class OracleAutoIncrementHelper
 {
@@ -67,9 +68,9 @@ class OracleAutoIncrementHelper
      *
      * @param Blueprint $blueprint
      *
-     * @return \Hyperf\Support\Fluent|null
+     * @return Fluent|null
      */
-    public function getQualifiedAutoIncrementColumn(Blueprint $blueprint): \Hyperf\Support\Fluent|null
+    public function getQualifiedAutoIncrementColumn(Blueprint $blueprint): Fluent|null
     {
         $columns = $blueprint->getColumns();
 

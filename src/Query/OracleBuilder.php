@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Hyperf\Database\Oracle\Query;
 
-use App\Model\Model;
 use Closure;
-use Hyperf\Contract\Arrayable;
+use Hyperf\Database\Model\Model;
 use Hyperf\Database\Model\Relations\Relation;
 use Hyperf\Database\Oracle\Query\Grammars\OracleGrammar;
 use Hyperf\Database\Query\Builder;
 use Hyperf\Database\Query\Expression;
+use Hyperf\Utils\Contracts\Arrayable;
 use InvalidArgumentException;
 
 class OracleBuilder extends Builder

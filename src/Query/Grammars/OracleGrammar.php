@@ -7,9 +7,7 @@ namespace Hyperf\Database\Oracle\Query\Grammars;
 use Hyperf\Database\Query\Builder;
 use Hyperf\Database\Query\Expression;
 use Hyperf\Database\Query\Grammars\Grammar;
-use Hyperf\Stringable\Str;
-
-use function Hyperf\Collection\last;
+use Hyperf\Utils\Str;
 
 class OracleGrammar extends Grammar
 {
