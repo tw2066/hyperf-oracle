@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Hyperf\Database\Oracle\Query;
 
-use App\Model\Model;
 use Closure;
+use Hyperf\Database\Model\Model;
 use Hyperf\Contract\Arrayable;
 use Hyperf\Database\Model\Relations\Relation;
 use Hyperf\Database\Oracle\Query\Grammars\OracleGrammar;
