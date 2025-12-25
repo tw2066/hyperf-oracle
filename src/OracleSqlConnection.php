@@ -6,6 +6,7 @@ namespace Hyperf\Database\Oracle;
 
 use Hyperf\Database\Connection;
 use Hyperf\Database\Oracle\Query\Grammars\OracleGrammar as QueryGrammar;
+use Hyperf\Database\Oracle\Query\Processors\OracleProcessor;
 use Hyperf\Database\Oracle\Schema\Grammars\OracleGrammar;
 use Hyperf\Database\Oracle\Schema\OracleBuilder;
 use PDOStatement;
@@ -53,5 +54,9 @@ class OracleSqlConnection extends Connection
     protected function getDefaultSchemaGrammar(): OracleGrammar
     {
         return $this->withTablePrefix(new OracleGrammar());
+    }
+    protected function getDefaultPostProcessor()
+    {
+        return new OracleProcessor();
     }
 }
