@@ -61,7 +61,7 @@ return [
         'auto_commit' => env('DB_AUTO_COMMIT', false),
         'timezone' => env('DB_TIMEZONE', 'America/Sao_Paulo'),
         'password' => env('DB_PASSWORD', 'password'),
-        'charset' => env('DB_CHARSET', 'utf8mb4'),
+        'charset' => env('DB_CHARSET', 'AL32UTF8'),
         'prefix' => env('DB_PREFIX', ''),
         'pool' => [
             'min_connections' => 1,
