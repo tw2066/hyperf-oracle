@@ -991,4 +991,98 @@ class OracleGrammar extends Grammar
 
         return "alter table {$table} drop constraint {$index}";
     }
+
+    public function compileColumnListing(): string
+    {
+        return "select
+                '' as column_key,
+                t.column_name as column_name,
+                t.data_type as data_type,
+                c.comments as column_comment,
+                '' as extra,
+                t.data_length,
+                t.char_length,
+                t.data_default as data_default,
+                nvl(t.data_type_mod, data_type) as type_name,
+                    -- 转换为MySQL data_type格式
+                CASE 
+                    -- 数值类型
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 2 THEN 'tinyint'
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 4 THEN 'smallint'
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 9 THEN 'int'
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 18 THEN 'bigint'
+                    WHEN data_type = 'NUMBER' THEN 'decimal'
+                    WHEN data_type = 'BINARY_FLOAT' THEN 'float'
+                    WHEN data_type = 'BINARY_DOUBLE' THEN 'double'
+                    
+                    -- 字符类型
+                    WHEN data_type = 'CHAR' THEN 'char'
+                    WHEN data_type = 'VARCHAR2' THEN 'varchar'
+                    WHEN data_type = 'NCHAR' THEN 'char'
+                    WHEN data_type = 'NVARCHAR2' THEN 'varchar'
+                    WHEN data_type IN ('CLOB', 'LONG', 'NCLOB') THEN 'longtext'
+                    
+                    -- 日期时间类型
+                    WHEN data_type = 'DATE' THEN 'datetime'
+                    WHEN data_type LIKE 'TIMESTAMP%' THEN 'datetime'
+                    
+                    -- 二进制类型
+                    WHEN data_type = 'RAW' THEN 'varbinary'
+                    WHEN data_type IN ('BLOB', 'LONG RAW') THEN 'longblob'
+                    WHEN data_type = 'BFILE' THEN 'varchar'
+                    
+                    -- 特殊类型
+                    WHEN data_type IN ('ROWID', 'UROWID') THEN 'char'
+                    WHEN data_type = 'XMLTYPE' THEN 'longtext'
+                    WHEN data_type = 'JSON' THEN 'json'
+                    
+                    -- 默认处理
+                    ELSE 'text'
+                END AS mysql_data_type,
+                CASE 
+                    -- 数值类型转换
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 2 THEN 'TINYINT'
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 4 THEN 'SMALLINT'
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 9 THEN 'INT'
+                    WHEN data_type = 'NUMBER' AND data_scale = 0 AND data_precision IS NOT NULL AND data_precision <= 18 THEN 'BIGINT'
+                    WHEN data_type = 'NUMBER' AND data_scale > 0 THEN 'DECIMAL(' || data_precision || ',' || data_scale || ')'
+                    WHEN data_type = 'NUMBER' THEN 'DECIMAL(38)'
+                    WHEN data_type = 'BINARY_FLOAT' THEN 'FLOAT'
+                    WHEN data_type = 'BINARY_DOUBLE' THEN 'DOUBLE'
+                    
+                    -- 字符类型转换
+                    WHEN data_type = 'CHAR' THEN 'CHAR(' || data_length || ')'
+                    WHEN data_type = 'VARCHAR2' THEN 'VARCHAR(' || data_length || ')'
+                    WHEN data_type = 'NCHAR' THEN 'CHAR(' || char_length || ') CHARACTER SET utf8mb4'
+                    WHEN data_type = 'NVARCHAR2' THEN 'VARCHAR(' || char_length || ') CHARACTER SET utf8mb4'
+                    WHEN data_type IN ('CLOB', 'LONG') THEN 'LONGTEXT'
+                    WHEN data_type = 'NCLOB' THEN 'LONGTEXT CHARACTER SET utf8mb4'
+                    
+                    -- 日期时间类型转换
+                    WHEN data_type = 'DATE' THEN 'DATETIME'
+                    WHEN data_type LIKE 'TIMESTAMP%' AND data_type NOT LIKE '%WITH TIME ZONE%' THEN 
+                        'DATETIME(' || NVL(data_scale, 0) || ')'
+                    WHEN data_type LIKE 'TIMESTAMP%' AND data_type LIKE '%WITH TIME ZONE%' THEN 
+                        'DATETIME(' || NVL(data_scale, 0) || ') -- TIME ZONE: Stored separately'
+                    
+                    -- 二进制类型转换
+                    WHEN data_type = 'RAW' THEN 'VARBINARY(' || data_length || ')'
+                    WHEN data_type IN ('BLOB', 'LONG RAW') THEN 'LONGBLOB'
+                    WHEN data_type = 'BFILE' THEN 'VARCHAR(4000) -- EXTERNAL FILE REFERENCE'
+                    
+                    -- 特殊类型
+                    WHEN data_type IN ('ROWID', 'UROWID') THEN 'CHAR(18)'
+                    WHEN data_type = 'XMLTYPE' THEN 'LONGTEXT'
+                    WHEN data_type = 'JSON' THEN 'JSON'
+                    
+                    -- 默认处理
+                    ELSE 'TEXT'
+                END AS mysql_type_name
+            from all_tab_cols t
+            left join all_col_comments c on t.owner = c.owner and t.table_name = c.table_name AND t.column_name = c.column_name
+            where  upper(t.owner) = upper(?)
+                and upper(t.table_name) = upper(?)
+            order by
+                t.column_id";
+    }
 }

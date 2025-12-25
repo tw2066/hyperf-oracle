@@ -227,17 +227,18 @@ class OracleBuilder extends Builder
     public function getColumnTypeListing($table)
     {
         [$schema, $table] = $this->parseSchemaAndTable($table);
-
         $table = $this->connection->getTablePrefix() . $table;
 
         $results = $this->connection->select(
             $this->grammar->compileColumnListing(),
-            [$this->connection->getDatabaseName(), $schema, $table]
+            [$this->connection->getDatabaseName(), $table]
         );
-
-        /** @var PostgresProcessor $processor */
-        $processor = $this->connection->getPostProcessor();
-        return $processor->processListing($results);
+        return array_map(function ($result) {
+            $result = (array) $result;
+            $result['data_type'] = $result['mysql_data_type'];
+            $result['type_name'] = $result['mysql_type_name'];
+            return $result;
+        }, $results);
     }
 
     protected function createBlueprint($table, Closure $callback = null)
