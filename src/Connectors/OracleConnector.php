@@ -121,7 +121,10 @@ class OracleConnector extends Connector implements ConnectorInterface
      */
     protected function getEncoding(array $config): string
     {
-        return $config['charset'] ?? '';
+        if (isset($config['charset'])) {
+            return "charset={$config['charset']}";
+        }
+        return '';
     }
 
     /**
