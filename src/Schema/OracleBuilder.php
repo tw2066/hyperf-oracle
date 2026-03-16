@@ -243,7 +243,7 @@ class OracleBuilder extends Builder
         }, $results);
     }
 
-    protected function createBlueprint($table, Closure $callback = null)
+    protected function createBlueprint($table, ?Closure $callback = null)
     {
         $blueprint = new OracleBlueprint($table, $callback);
         $blueprint->setTablePrefix($this->connection->getTablePrefix());

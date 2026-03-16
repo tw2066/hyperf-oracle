@@ -9,6 +9,7 @@ use Hyperf\Database\Oracle\Query\Grammars\OracleGrammar as QueryGrammar;
 use Hyperf\Database\Oracle\Query\Processors\OracleProcessor;
 use Hyperf\Database\Oracle\Schema\Grammars\OracleGrammar;
 use Hyperf\Database\Oracle\Schema\OracleBuilder;
+use Hyperf\Database\Query\Processors\Processor;
 use PDOStatement;
 
 class OracleSqlConnection extends Connection
@@ -55,7 +56,7 @@ class OracleSqlConnection extends Connection
     {
         return $this->withTablePrefix(new OracleGrammar());
     }
-    protected function getDefaultPostProcessor()
+    protected function getDefaultPostProcessor(): Processor
     {
         return new OracleProcessor();
     }
